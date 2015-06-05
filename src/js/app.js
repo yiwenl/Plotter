@@ -15,9 +15,10 @@ var dat = require("dat-gui");
 	var p = App.prototype;
 
 	p._init = function() {
+		this.drawRange = 5;
 		this._drawBackground();
 		this.canvasPlot = document.querySelector('.PlotterCanvas--Plotter');
-		this.ctx = this.canvasPlot.getContext("2d");
+		this.ctxPlot = this.canvasPlot.getContext("2d");
 
 		this.inputFunction = document.querySelector('.Inputs-InputFunction');
 		this.btnDraw = document.querySelector('.Inputs-ButtonDraw');
@@ -26,20 +27,6 @@ var dat = require("dat-gui");
 		window.addEventListener("keydown", this._onKey.bind(this));
 
 		//	TANGLE
-		var rootElement = document.getElementById("calorieCalculator");
-		var model = {
-		    initialize: function () {
-		        this.cookies = 3;
-		        this.caloriesPerCookie = 50;
-		        this.dailyCalories = 2100;
-		    },
-		    update: function () {
-		        this.calories = this.cookies * this.caloriesPerCookie;
-		        this.dailyPercent = 100 * this.calories / this.dailyCalories;
-		    }
-		};
-		var tangle = new Tangle(rootElement, model);
-
 		var drawBind = this._draw.bind(this);
 		var elRange = document.querySelector(".PlotterRange--End");
 		var modelRange = {
@@ -47,13 +34,13 @@ var dat = require("dat-gui");
 		        this.range = 5;
 		    },
 		    update: function () {
-		    	console.log('Update');
-		    	drawBind();
+		    	drawBind(this.range);
 		    }
 		}
 
-		var tangleRange = new Tangle(elRange, modelRange);
+		// var tangleRange = new Tangle(elRange, modelRange);
 		
+		this._tangleBind = this._tangle.bind(this);
 		this._draw();
 	};
 
@@ -67,12 +54,17 @@ var dat = require("dat-gui");
 	};
 
 
-	p._draw = function() {
-		console.log(this.inputFunction.value);
+	p._draw = function(range) {
+		if(range) {
+			this.drawRange = range;
+		}
 
 		if(this.inputFunction.value == "") return;
 
 		var str = this.inputFunction.value;
+		this._formTangle(str);
+
+
 		try{
 			this.fnPlotter = new Function("x", this._formalizeFunction(str));	
 		} catch(e) {
@@ -84,29 +76,91 @@ var dat = require("dat-gui");
 	};
 
 
-	p.plot = function() {
-		this.ctx.clearRect(0, 0, this.canvasPlot.width, this.canvasPlot.height);
+	p._formTangle = function(str) {
+		var p = document.querySelector('.Inputs-Tangle');
+		var strP = "";
 
-		this.ctx.strokeStyle = 'rgba(255, 0, 0, 1)';
-		this.ctx.beginPath();
+		var reg = new RegExp(/\d/g);
+		var match;
+		var values = [];
+		var i = 0;
+		var preIndex = 0;
+		while (match = reg.exec(str)) {
+			var strBefore = str.substring(preIndex, match.index);
+			preIndex = reg.lastIndex;
+			var value = parseFloat(match);
+			values.push(value);
+
+			console.log(strBefore);
+			strP += strBefore;
+			strP += '<span class="TKAdjustableNumber" data-var="data'+i+'" data-min="1" data-max="50" data-step=".1" data-format="%.1f"></span>';
+			i++;
+		}
+
+		if(i == 0 ) return;
+		strP += str.substring(preIndex);
+
+		
+
+		p.innerHTML = strP;
+		p.style.color = 'white';
+		var that = this;
+
+		// var elRange = document.querySelector(".PlotterRange--End");
+		var modelRange = {
+			initialize: function () {
+				this.numData = 0;
+				for(var i=0; i<values.length;i++) {
+					this["data" + i] = values[i];
+					this.numData ++;
+				}
+		        // this.data0 = 1;
+		    },
+		    update: function () {
+		    	var ary = [];
+		    	for(var i=0; i<this.numData; i++) {
+		    		ary.push(this["data"+i]);
+		    	}
+		    	that._tangleBind(ary);
+		    }
+		}
+
+		console.log(modelRange);
+
+		var tangleRange = new Tangle(p, modelRange);
+	};
+
+
+	p._tangle = function(tangle) {
+		console.log('Update Tangle : ', tangle);
+	};
+
+
+	p.plot = function() {
+		this.ctxPlot.clearRect(0, 0, this.canvasPlot.width, this.canvasPlot.height);
+
+		this.ctxPlot.strokeStyle = 'rgba(255, 0, 0, 1)';
+		this.ctxPlot.beginPath();
 
 		var ty = this.canvasPlot.height * .5;
 		var gap = 25;
+		var height = .5/(this.drawRange);
 
 		for(var i=0; i<=this.canvasPlot.width; i++) {
 			try {
-				var y = ty - this.fnPlotter(i/gap)*gap;	
+				// var y = ty - this.fnPlotter(i/gap)*gap;	
+				var y = ty - this.fnPlotter(i/500*this.drawRange)*(250/this.drawRange);
 			} catch(e) {
 				console.warn('Error : ', e);
 				return;
 			}
 			
 
-			if(i==0) this.ctx.moveTo(i, y);
-			else this.ctx.lineTo(i, y);
+			if(i==0) this.ctxPlot.moveTo(i, y);
+			else this.ctxPlot.lineTo(i, y);
 		}
 
-		this.ctx.stroke();
+		this.ctxPlot.stroke();
 	};
 
 
