@@ -3,18 +3,33 @@
 <head>
 	<title>Plotter</title>
 	<link rel="stylesheet" type="text/css" href="css/main.css">
+	<script type="text/javascript" src="TangleKit/Tangle.js"></script>
+	<link rel="stylesheet" href="TangleKit/TangleKit.css" type="text/css">
+    <script type="text/javascript" src="TangleKit/mootools.js"></script>
+    <script type="text/javascript" src="TangleKit/sprintf.js"></script>
+    <script type="text/javascript" src="TangleKit/BVTouchable.js"></script>
+    <script type="text/javascript" src="TangleKit/TangleKit.js"></script>
+
 	<script type="text/javascript" src="bundle/bundle.js"></script>
 </head>
 <body>
 	<div class="PlotterContainer">
 		<canvas class="PlotterCanvas PlotterCanvas--Plotter" width="500", height="500"></canvas>
 		<canvas class="PlotterCanvas PlotterCanvas--Background" width="500", height="500"></canvas>
+		<p class="PlotterRange">0</p>
+		<p class="PlotterRange PlotterRange--End"><span class="TKAdjustableNumber" data-var="range" data-min="1" data-max="50"></span><p>
 	</div>
 
 	<div class="Inputs">
 		<!-- <p class="Inputs-InputsTitle">Input</p> -->
 		<textarea class="Inputs-InputFunction" value="Math.sin(x)">Math.sin(x)</textarea>
 		<button class="Inputs-ButtonDraw">DRAW</button>
+
+
+		<p id="calorieCalculator" class="Tangle-Test">
+  When you eat <span class="TKAdjustableNumber" data-var="cookies"> cookies</span>,
+  you consume <b data-var="calories"> calories</b>. That's 
+  <span data-var="dailyPercent">%</span> of your recommended daily calories.</p>
 	</div>
 </body>
 </html>

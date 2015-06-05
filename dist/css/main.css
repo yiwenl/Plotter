@@ -22,6 +22,8 @@ h1, h2, h3, h4, text, p {
   outline: 0; }
 
 .PlotterCanvas {
+  margin-top: 7.5px;
+  margin-left: 7.5px;
   position: absolute;
   top: 0px;
   left: 0px;
@@ -34,10 +36,19 @@ h1, h2, h3, h4, text, p {
 .PlotterCanvas--Background {
   z-index: 0; }
 
+.PlotterRange {
+  color: white;
+  position: absolute;
+  top: 500px; }
+
+.PlotterRange--End {
+  left: 500px; }
+
 .Inputs {
   width: 50%;
   height: 100%;
   right: 0px;
+  top: 7.5px;
   position: absolute; }
 
 .Inputs-InputsTitle {
@@ -62,3 +73,8 @@ h1, h2, h3, h4, text, p {
   margin-top: 20px;
   float: left;
   clear: both; }
+
+.Tangle-Test {
+  padding-top: 10px;
+  clear: both;
+  color: white; }

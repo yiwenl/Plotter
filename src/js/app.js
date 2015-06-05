@@ -24,6 +24,35 @@ var dat = require("dat-gui");
 		this.btnDraw.addEventListener("click", this._draw.bind(this));
 
 		window.addEventListener("keydown", this._onKey.bind(this));
+
+		//	TANGLE
+		var rootElement = document.getElementById("calorieCalculator");
+		var model = {
+		    initialize: function () {
+		        this.cookies = 3;
+		        this.caloriesPerCookie = 50;
+		        this.dailyCalories = 2100;
+		    },
+		    update: function () {
+		        this.calories = this.cookies * this.caloriesPerCookie;
+		        this.dailyPercent = 100 * this.calories / this.dailyCalories;
+		    }
+		};
+		var tangle = new Tangle(rootElement, model);
+
+		var drawBind = this._draw.bind(this);
+		var elRange = document.querySelector(".PlotterRange--End");
+		var modelRange = {
+			initialize: function () {
+		        this.range = 5;
+		    },
+		    update: function () {
+		    	console.log('Update');
+		    	drawBind();
+		    }
+		}
+
+		var tangleRange = new Tangle(elRange, modelRange);
 		
 		this._draw();
 	};
