@@ -39,21 +39,12 @@ var dat = require("dat-gui");
 		    }
 		}
 
-		var str = "sin(.5) + 2.0 * 2";
-
-		var reg = new RegExp(/\d*\.?\d+/g);
-		var match;
-		while (match = reg.exec(str)) {
-			console.log(match);
-		}
-
 		this._tangleBind = this._tangle.bind(this);
 		this._draw();
 	};
 
 
 	p._onKey = function(e) {
-		// console.log("on Key : ", e.keyCode);
 		if(e.keyCode == 13) {
 			e.preventDefault();
 			this._draw();
@@ -110,7 +101,6 @@ var dat = require("dat-gui");
 		p.style.color = 'white';
 		var that = this;
 
-		// var elRange = document.querySelector(".PlotterRange--End");
 		var modelRange = {
 			initialize: function () {
 				this.numData = 0;
