@@ -3,8 +3,6 @@ window.bongiovi = require("./libs/bongiovi.js");
 var dat = require("dat-gui");
 
 (function() {
-	var SceneApp = require("./SceneApp");
-
 	App = function() {
 		if(document.body) this._init();
 		else {
@@ -40,8 +38,14 @@ var dat = require("dat-gui");
 		    }
 		}
 
-		// var tangleRange = new Tangle(elRange, modelRange);
-		
+		var str = "sin(.5) + 2.0 * 2";
+
+		var reg = new RegExp(/\d*\.?\d+/g);
+		var match;
+		while (match = reg.exec(str)) {
+			console.log(match);
+		}
+
 		this._tangleBind = this._tangle.bind(this);
 		this._draw();
 	};
@@ -57,15 +61,11 @@ var dat = require("dat-gui");
 
 
 	p._draw = function(range) {
-		if(range) {
-			this.drawRange = range;
-		}
-
+		if(range) {	this.drawRange = range;	}
 		if(this.inputFunction.value == "") return;
 
 		var str = this.inputFunction.value;
 		this._formTangle(str);
-
 
 		try{
 			this.fnPlotter = new Function("x", this._formalizeFunction(str));	
@@ -82,7 +82,7 @@ var dat = require("dat-gui");
 		var p = document.querySelector('.Inputs-Tangle');
 		var strP = "";
 
-		var reg = new RegExp(/\d/g);
+		var reg = new RegExp(/\d*\.?\d+/g);
 		var match;
 		var values = [];
 		var i = 0;
@@ -135,7 +135,6 @@ var dat = require("dat-gui");
 
 
 	p._tangle = function(tangle) {
-		console.log('Update Tangle : ', tangle);
 		var strFunc = "";
 		for(var i=0; i<tangle.length; i++) {
 			strFunc += this._tangleStrings[i];
@@ -144,9 +143,7 @@ var dat = require("dat-gui");
 
 		strFunc += this._tangleStrings[this._tangleStrings.length-1];
 		strFunc = this._formalizeFunction(strFunc);
-		console.log('Str tangle : ', strFunc);
 		this.fnTangle = new Function("x", strFunc);
-		// new Function("x", this._formalizeFunction(str));	
 
 		this.plotTangle();
 	};

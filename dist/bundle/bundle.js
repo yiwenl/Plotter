@@ -4,8 +4,6 @@ window.bongiovi = require("./libs/bongiovi.js");
 var dat = require("dat-gui");
 
 (function() {
-	var SceneApp = require("./SceneApp");
-
 	App = function() {
 		if(document.body) this._init();
 		else {
@@ -41,8 +39,14 @@ var dat = require("dat-gui");
 		    }
 		}
 
-		// var tangleRange = new Tangle(elRange, modelRange);
-		
+		var str = "sin(.5) + 2.0 * 2";
+
+		var reg = new RegExp(/\d*\.?\d+/g);
+		var match;
+		while (match = reg.exec(str)) {
+			console.log(match);
+		}
+
 		this._tangleBind = this._tangle.bind(this);
 		this._draw();
 	};
@@ -58,15 +62,11 @@ var dat = require("dat-gui");
 
 
 	p._draw = function(range) {
-		if(range) {
-			this.drawRange = range;
-		}
-
+		if(range) {	this.drawRange = range;	}
 		if(this.inputFunction.value == "") return;
 
 		var str = this.inputFunction.value;
 		this._formTangle(str);
-
 
 		try{
 			this.fnPlotter = new Function("x", this._formalizeFunction(str));	
@@ -83,7 +83,7 @@ var dat = require("dat-gui");
 		var p = document.querySelector('.Inputs-Tangle');
 		var strP = "";
 
-		var reg = new RegExp(/\d/g);
+		var reg = new RegExp(/\d*\.?\d+/g);
 		var match;
 		var values = [];
 		var i = 0;
@@ -136,7 +136,6 @@ var dat = require("dat-gui");
 
 
 	p._tangle = function(tangle) {
-		console.log('Update Tangle : ', tangle);
 		var strFunc = "";
 		for(var i=0; i<tangle.length; i++) {
 			strFunc += this._tangleStrings[i];
@@ -145,9 +144,7 @@ var dat = require("dat-gui");
 
 		strFunc += this._tangleStrings[this._tangleStrings.length-1];
 		strFunc = this._formalizeFunction(strFunc);
-		console.log('Str tangle : ', strFunc);
 		this.fnTangle = new Function("x", strFunc);
-		// new Function("x", this._formalizeFunction(str));	
 
 		this.plotTangle();
 	};
@@ -241,7 +238,7 @@ var dat = require("dat-gui");
 
 
 new App();
-},{"./SceneApp":5,"./libs/bongiovi.js":6,"dat-gui":2}],2:[function(require,module,exports){
+},{"./libs/bongiovi.js":5,"dat-gui":2}],2:[function(require,module,exports){
 module.exports = require('./vendor/dat.gui')
 module.exports.color = require('./vendor/dat.color')
 },{"./vendor/dat.color":3,"./vendor/dat.gui":4}],3:[function(require,module,exports){
@@ -4662,31 +4659,6 @@ dat.utils.common),
 dat.dom.dom,
 dat.utils.common);
 },{}],5:[function(require,module,exports){
-// SceneApp.js
-
-var GL = bongiovi.GL, gl;
-
-function SceneApp() {
-	gl = GL.gl;
-	bongiovi.Scene.call(this);
-}
-
-
-var p = SceneApp.prototype = new bongiovi.Scene();
-
-p._initTextures = function() {
-	console.log('Init Textures');
-};
-
-p._initViews = function() {
-	console.log('Init Views');
-};
-
-p.render = function() {
-};
-
-module.exports = SceneApp;
-},{}],6:[function(require,module,exports){
 (function (global){
 (function(f){if(typeof exports==="object"&&typeof module!=="undefined"){module.exports=f()}else if(typeof define==="function"&&define.amd){define([],f)}else{var g;if(typeof window!=="undefined"){g=window}else if(typeof global!=="undefined"){g=global}else if(typeof self!=="undefined"){g=self}else{g=this}g.bongiovi = f()}})(function(){var define,module,exports;return (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(_dereq_,module,exports){
 "use strict";
