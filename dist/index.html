@@ -1,11 +1,20 @@
 <!-- index.html -->
 <html>
 <head>
-	<title>Gulp - Template</title>
+	<title>Plotter</title>
 	<link rel="stylesheet" type="text/css" href="css/main.css">
-	<script type="text/javascript" src="bundle/gl-matrix-2.2.2-min.js"></script>
 	<script type="text/javascript" src="bundle/bundle.js"></script>
 </head>
 <body>
+	<div class="PlotterContainer">
+		<canvas class="PlotterCanvas PlotterCanvas--Plotter" width="500", height="500"></canvas>
+		<canvas class="PlotterCanvas PlotterCanvas--Background" width="500", height="500"></canvas>
+	</div>
+
+	<div class="Inputs">
+		<!-- <p class="Inputs-InputsTitle">Input</p> -->
+		<textarea class="Inputs-InputFunction" value="Math.sin(x)">Math.sin(x)</textarea>
+		<button class="Inputs-ButtonDraw">DRAW</button>
+	</div>
 </body>
 </html>
