@@ -19,6 +19,8 @@ var dat = require("dat-gui");
 		this._drawBackground();
 		this.canvasPlot = document.querySelector('.PlotterCanvas--Plotter');
 		this.ctxPlot = this.canvasPlot.getContext("2d");
+		this.canvasTangle = document.querySelector('.PlotterCanvas--Tangle');
+		this.ctxTangle = this.canvasTangle.getContext("2d");
 
 		this.inputFunction = document.querySelector('.Inputs-InputFunction');
 		this.btnDraw = document.querySelector('.Inputs-ButtonDraw');
@@ -85,22 +87,23 @@ var dat = require("dat-gui");
 		var values = [];
 		var i = 0;
 		var preIndex = 0;
+		this._tangleStrings = [];
 		while (match = reg.exec(str)) {
 			var strBefore = str.substring(preIndex, match.index);
 			preIndex = reg.lastIndex;
 			var value = parseFloat(match);
 			values.push(value);
 
-			console.log(strBefore);
 			strP += strBefore;
+			this._tangleStrings.push(strBefore);
 			strP += '<span class="TKAdjustableNumber" data-var="data'+i+'" data-min="1" data-max="50" data-step=".1" data-format="%.1f"></span>';
 			i++;
 		}
 
 		if(i == 0 ) return;
-		strP += str.substring(preIndex);
-
-		
+		var strLeft = str.substring(preIndex);
+		strP += strLeft;
+		this._tangleStrings.push(strLeft);
 
 		p.innerHTML = strP;
 		p.style.color = 'white';
@@ -133,10 +136,23 @@ var dat = require("dat-gui");
 
 	p._tangle = function(tangle) {
 		console.log('Update Tangle : ', tangle);
+		var strFunc = "";
+		for(var i=0; i<tangle.length; i++) {
+			strFunc += this._tangleStrings[i];
+			strFunc += tangle[i];
+		}
+
+		strFunc += this._tangleStrings[this._tangleStrings.length-1];
+		strFunc = this._formalizeFunction(strFunc);
+		console.log('Str tangle : ', strFunc);
+		this.fnTangle = new Function("x", strFunc);
+		// new Function("x", this._formalizeFunction(str));	
+
+		this.plotTangle();
 	};
 
 
-	p.plot = function() {
+	p.plot = function(ctx) {
 		this.ctxPlot.clearRect(0, 0, this.canvasPlot.width, this.canvasPlot.height);
 
 		this.ctxPlot.strokeStyle = 'rgba(255, 0, 0, 1)';
@@ -163,6 +179,33 @@ var dat = require("dat-gui");
 		this.ctxPlot.stroke();
 	};
 
+
+	p.plotTangle = function() {
+		this.ctxTangle.clearRect(0, 0, this.canvasTangle.width, this.canvasTangle.height);
+
+		this.ctxTangle.strokeStyle = 'rgba(255, 128, 0, 1)';
+		this.ctxTangle.beginPath();
+
+		var ty = this.canvasTangle.height * .5;
+		var gap = 25;
+		var height = .5/(this.drawRange);
+
+		for(var i=0; i<=this.canvasTangle.width; i++) {
+			try {
+				// var y = ty - this.fnTangleter(i/gap)*gap;	
+				var y = ty - this.fnTangle(i/500*this.drawRange)*(250/this.drawRange);
+			} catch(e) {
+				console.warn('Error : ', e);
+				return;
+			}
+			
+
+			if(i==0) this.ctxTangle.moveTo(i, y);
+			else this.ctxTangle.lineTo(i, y);
+		}
+
+		this.ctxTangle.stroke();
+	};
 
 	p._drawBackground = function() {
 		var canvas = document.querySelector('.PlotterCanvas--Background');
