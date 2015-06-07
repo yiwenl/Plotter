@@ -44,7 +44,7 @@ gulp.task('sass', function() {
 	})
 	.pipe(prefix({
 			browsers: ['last 2 versions'],
-			cascade: false
+			cascade: true
 		}))
 	.pipe(gulp.dest('./stylesheets'))
 	.pipe(reload({stream:true}));
@@ -60,6 +60,7 @@ gulp.task('browser-sync', function() {
 	      './js/*.*',
 	      './js/bundle.js',
 	      './stylesheets/*.*',
+	      './TangleKit/*.*',
 	      './css/main.css',
 	      './index.html'
 	    ],

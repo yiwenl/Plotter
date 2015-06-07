@@ -1,0 +1,62 @@
+*:focus {
+  outline: 0; }
+
+.PlotterCanvas {
+  position: absolute;
+  width: 500px;
+  height: 500px; }
+
+.PlotterCanvas--Plotter {
+  z-index: 2; }
+
+.PlotterCanvas--Tangle {
+  z-index: 1; }
+
+.PlotterCanvas--Background {
+  z-index: 0; }
+
+.PlotterRange {
+  color: black;
+  top: 500px; }
+
+.PlotterRange--End {
+  left: 500px; }
+
+.Inputs {
+  width: 50%;
+  height: 100%;
+  right: 0px;
+  top: 7.5px;
+  position: absolute; }
+
+.Inputs-InputsTitle {
+  float: left;
+  color: white; }
+
+.Inputs-InputFunction {
+  clear: both;
+  float: left;
+  width: 100%;
+  height: 300px;
+  font-family: Verdana;
+  font-size: 14px;
+  outline: none;
+  -webkit-appearance: none;
+  background: rgba(0, 0, 0, 0.25);
+  border: 0px;
+  padding: 10px;
+  color: whitesmoke; }
+
+.Inputs-ButtonDraw {
+  margin-top: 20px;
+  float: left;
+  clear: both; }
+
+.Tangle-Test {
+  padding-top: 10px;
+  clear: both;
+  color: white; }
+
+.Inputs-Tangle {
+  float: left;
+  clear: both; }

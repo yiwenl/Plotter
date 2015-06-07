@@ -3,14 +3,24 @@
   <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="chrome=1">
-    <title>Plotter by yiwenl</title>
+    <title>Plotter by Lin Yi-Wen</title>
 
     <link rel="stylesheet" href="stylesheets/styles.css">
+    <link rel="stylesheet" href="stylesheets/main.css">
     <link rel="stylesheet" href="stylesheets/github-light.css">
+    <link rel="stylesheet" href="TangleKit/TangleKit.css" type="text/css">
+
+    <script type="text/javascript" src="TangleKit/Tangle.js"></script>
+    <script type="text/javascript" src="TangleKit/mootools.js"></script>
+    <script type="text/javascript" src="TangleKit/sprintf.js"></script>
+    <script type="text/javascript" src="TangleKit/BVTouchable.js"></script>
+    <script type="text/javascript" src="TangleKit/TangleKit.js"></script>
+
     <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
     <!--[if lt IE 9]>
     <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
     <![endif]-->
+    <script src="javascripts/bundle.js"></script>
   </head>
   <body>
     <div class="wrapper">
@@ -48,9 +58,20 @@ $ git checkout gh-pages
 <h3>
 <a id="rather-drive-stick" class="anchor" href="#rather-drive-stick" aria-hidden="true"><span class="octicon octicon-link"></span></a>Rather Drive Stick?</h3>
 
-<div class="Plotter">
-  <canvas width="500" height="500"></canvas>
-</div>
+<div class="PlotterContainer">
+    <canvas class="PlotterCanvas PlotterCanvas--Plotter" width="500", height="500"></canvas>
+    <canvas class="PlotterCanvas PlotterCanvas--Tangle" width="500", height="500"></canvas>
+    <canvas class="PlotterCanvas PlotterCanvas--Background" width="500", height="500"></canvas>
+    <p class="PlotterRange">0</p>
+    <p class="PlotterRange PlotterRange--End"><span class="TKAdjustableNumber" data-var="range" data-min="1" data-max="50" data-step=".02" data-format="%.2f"></span><p>
+  </div>
+
+  <div class="Inputs">
+    <!-- <p class="Inputs-InputsTitle">Input</p> -->
+    <textarea class="Inputs-InputFunction" value="Math.sin(x)">Math.sin(x*1.5) - .5</textarea>
+    <button class="Inputs-ButtonDraw">DRAW</button>
+    <p class="Inputs-Tangle"></p>
+  </div>
 
 
 <h3>
