@@ -1,9 +1,15 @@
 *:focus {
   outline: 0; }
 
+.PlotterContainer {
+  max-width: 500px;
+  height: 500px;
+  margin-top: 20px;
+  margin-bottom: 20px; }
+
 .PlotterCanvas {
   position: absolute;
-  width: 500px;
+  max-width: 500px;
   height: 500px; }
 
 .PlotterCanvas--Plotter {
@@ -23,11 +29,11 @@
   left: 500px; }
 
 .Inputs {
-  width: 50%;
-  height: 100%;
+  max-width: 500px;
+  height: 100px;
   right: 0px;
   top: 7.5px;
-  position: absolute; }
+  /*position: absolute;*/ }
 
 .Inputs-InputsTitle {
   float: left;
@@ -37,15 +43,18 @@
   clear: both;
   float: left;
   width: 100%;
-  height: 300px;
+  height: 100%;
   font-family: Verdana;
   font-size: 14px;
   outline: none;
   -webkit-appearance: none;
-  background: rgba(0, 0, 0, 0.25);
+  background: rgba(80, 80, 40, 0.1);
   border: 0px;
   padding: 10px;
-  color: whitesmoke; }
+  box-sizing: border-box;
+  color: #646464;
+  border: 1px solid rgba(100, 100, 100, 0.2);
+  border-radius: 4px; }
 
 .Inputs-ButtonDraw {
   margin-top: 20px;
@@ -59,4 +68,10 @@
 
 .Inputs-Tangle {
   float: left;
-  clear: both; }
+  clear: both;
+  letter-spacing: 1px;
+  margin-top: 10px; }
+
+.Warnings {
+  clear: both;
+  color: #ff7b7b; }

@@ -3,10 +3,16 @@
     outline: 0;
 }
 
+.PlotterContainer {
+	max-width:500px;
+	height:500px;
+	margin-top:20px;
+	margin-bottom:20px;
+}
 
 .PlotterCanvas {
 	position: absolute;
-	width:500px;
+	max-width:500px;
 	height:500px;
 }
 
@@ -33,11 +39,11 @@
 
 
 .Inputs {
-	width:50%;
-	height:100%;
+	max-width:500px;
+	height:100px;
 	right:0px;
 	top: 7.5px;
-	position: absolute;
+	/*position: absolute;*/
 }
 
 .Inputs-InputsTitle {
@@ -50,15 +56,19 @@
 	clear:both;
 	float:left;
 	width: 100%;
-	height:300px;	
+	height: 100%;	
 	font-family: Verdana;
 	font-size:14px;
 	outline: none;
 	-webkit-appearance:none;
-	background:rgba(0, 0, 0, .25);
+	background:rgba(80, 80, 40, .1);
 	border:0px;
 	padding:10px;
-	color:rgba(245, 245, 245, 1.0);
+	box-sizing: border-box; 
+	color:rgba(100, 100, 100, 1.0);
+	border:1px solid rgba(100, 100, 100, .2);
+
+	border-radius: 4px;
 }
 
 
@@ -77,4 +87,11 @@
 .Inputs-Tangle {
 	float:left;
 	clear:both;
+	letter-spacing: 1px;
+	margin-top:10px;
+}
+
+.Warnings {
+	clear:both;
+	color:rgba(255, 123, 123, 1.0);
 }

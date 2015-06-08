@@ -36,7 +36,10 @@ var dat = require("dat-gui");
 		    update: function () {
 		    	drawBind(this.range);
 		    }
-		}
+		}	
+
+
+		this._warning = document.body.querySelector('.Warnings');
 
 		this._tangleBind = this._tangle.bind(this);
 		this._draw();
@@ -47,25 +50,29 @@ var dat = require("dat-gui");
 		if(e.keyCode == 13) {
 			e.preventDefault();
 			this._draw();
+			this.ctxTangle.clearRect(0, 0, this.canvasTangle.width, this.canvasTangle.height);
 		}
 	};
 
 
 	p._draw = function(range) {
+		this.warn('');
 		if(range) {	this.drawRange = range;	}
 		if(this.inputFunction.value == "") return;
 
-		var str = this.inputFunction.value;
-		this._formTangle(str);
 
 		try{
 			this.fnPlotter = new Function("x", this._formalizeFunction(str));	
 		} catch(e) {
 			console.warn("Error : ", e);
+			this.warn(e.message);
 			return;
 		}
 
 		this.plot();
+
+		var str = this.inputFunction.value;
+		this._formTangle(str);
 	};
 
 
@@ -84,20 +91,25 @@ var dat = require("dat-gui");
 			preIndex = reg.lastIndex;
 			var value = parseFloat(match);
 			values.push(value);
+			var precision = this.getPrecision(value);
+			var step = this.getStep(precision);
+			var valueRange = this.getValueRange(value);
 
 			strP += strBefore;
 			this._tangleStrings.push(strBefore);
-			strP += '<span class="TKAdjustableNumber" data-var="data'+i+'" data-min="1" data-max="50" data-step=".1" data-format="%.1f"></span>';
+			strP += '<span class="TKAdjustableNumber" data-var="data'+i+'" data-min="'+valueRange.min+'" data-max="'+valueRange.max+'" data-step="'+step+'" data-format="%.1f"></span>';
 			i++;
 		}
 
-		if(i == 0 ) return;
+		if(i == 0 ) {
+			p.innerHTML = "";
+			return;
+		}
 		var strLeft = str.substring(preIndex);
 		strP += strLeft;
 		this._tangleStrings.push(strLeft);
 
 		p.innerHTML = strP;
-		p.style.color = 'white';
 		var that = this;
 
 		var modelRange = {
@@ -133,7 +145,14 @@ var dat = require("dat-gui");
 
 		strFunc += this._tangleStrings[this._tangleStrings.length-1];
 		strFunc = this._formalizeFunction(strFunc);
-		this.fnTangle = new Function("x", strFunc);
+		try {
+			this.fnTangle = new Function("x", strFunc);	
+		} catch(e) {
+			console.warn("Error : ", e.message);
+			this.warn(e.message);
+			return;
+		}
+		
 
 		this.plotTangle();
 	};
@@ -155,6 +174,7 @@ var dat = require("dat-gui");
 				var y = ty - this.fnPlotter(i/500*this.drawRange)*(250/this.drawRange);
 			} catch(e) {
 				console.warn('Error : ', e);
+				this.warn(e.message);
 				return;
 			}
 			
@@ -183,6 +203,7 @@ var dat = require("dat-gui");
 				var y = ty - this.fnTangle(i/500*this.drawRange)*(250/this.drawRange);
 			} catch(e) {
 				console.warn('Error : ', e);
+				this.warn(e.message);
 				return;
 			}
 			
@@ -201,7 +222,7 @@ var dat = require("dat-gui");
 		var gap = 25;
 		var numLines = canvas.width/gap;
 		ctx.beginPath();
-		ctx.strokeStyle = "rgba(20, 20, 20, 1)";
+		ctx.strokeStyle = "rgba(220, 220, 220, 1.0)";
 		for(var i=0; i<=numLines; i++) {
 			ctx.moveTo(i*gap, 0);
 			ctx.lineTo(i*gap, canvas.height);
@@ -213,11 +234,39 @@ var dat = require("dat-gui");
 		}
 
 		ctx.stroke();
+
+		ctx.beginPath();
+		ctx.strokeStyle = "rgba(0, 0, 0, 1.0)";
+		ctx.moveTo(0, (numLines/2)*gap);
+		ctx.lineTo(canvas.width, (numLines/2)*gap);
+		ctx.stroke();
+	};
+
+	p.getPrecision = function(value) {
+		var s = value + "";
+		if(s.length == 1) {
+			return 0;
+		}
+		var precision = (value + "").split(".")[1].length;
+		return precision;
+	};
+
+	p.getStep = function(mPrecision) {
+		return 1/Math.pow(10, mPrecision);
+	};
+
+	p.getValueRange = function(value) {
+		var tmp = Math.floor(value*10);
+		return {max:tmp, min:-tmp};
 	};
 
 
 	p._formalizeFunction = function(str) {
 		return "return " + str + ";"
+	};
+
+	p.warn = function(str) {
+		this._warning.innerHTML = str;
 	};
 
 	p._loop = function() {
