@@ -60,6 +60,7 @@ var dat = require("dat-gui");
 		if(range) {	this.drawRange = range;	}
 		if(this.inputFunction.value == "") return;
 
+		var str = this.inputFunction.value;
 
 		try{
 			this.fnPlotter = new Function("x", this._formalizeFunction(str));	
@@ -71,7 +72,7 @@ var dat = require("dat-gui");
 
 		this.plot();
 
-		var str = this.inputFunction.value;
+		
 		this._formTangle(str);
 	};
 
