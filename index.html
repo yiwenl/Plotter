@@ -45,11 +45,17 @@
 
 
 <div class="PlotterContainer">
-  <canvas class="PlotterCanvas PlotterCanvas--Plotter" width="500", height="500"></canvas>
-  <canvas class="PlotterCanvas PlotterCanvas--Tangle" width="500", height="500"></canvas>
-  <canvas class="PlotterCanvas PlotterCanvas--Background" width="500", height="500"></canvas>
-  <p class="PlotterRange">0</p>
-  <p class="PlotterRange PlotterRange--End"><span class="TKAdjustableNumber" data-var="range" data-min="1" data-max="50" data-step=".02" data-format="%.2f"></span><p>
+  <div class="PlotterContainer-canvasContainer">
+    <canvas class="PlotterCanvas PlotterCanvas--Plotter" width="480", height="480"></canvas>
+    <canvas class="PlotterCanvas PlotterCanvas--Tangle" width="480", height="480"></canvas>
+    <canvas class="PlotterCanvas PlotterCanvas--Background" width="480", height="480"></canvas>
+  </div>
+  <div class="PlotterContainer-rangeContainer">
+    <p class="PlotterRange PlotterRange--X"><span class="TKAdjustableNumber" data-var="range" data-min="1" data-max="50" data-step=".02" data-format="%.2f">0</span><p>
+    <p class="PlotterRange PlotterRange--Y"><span class="TKAdjustableNumber" data-var="range" data-min="1" data-max="50" data-step=".02" data-format="%.2f">0</span><p>
+  </div>
+  
+  
 </div>
 
 <div class="Inputs">

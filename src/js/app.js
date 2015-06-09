@@ -13,7 +13,8 @@ var dat = require("dat-gui");
 	var p = App.prototype;
 
 	p._init = function() {
-		this.drawRange = 5;
+		this.drawRangeX = 5;
+		this.drawRangeY = 5;
 		this._drawBackground();
 		this.canvasPlot = document.querySelector('.PlotterCanvas--Plotter');
 		this.ctxPlot = this.canvasPlot.getContext("2d");
@@ -34,21 +35,30 @@ var dat = require("dat-gui");
 		this._tangleBind = this._tangle.bind(this);
 		this._draw();
 
-		var elRange = document.querySelector(".PlotterRange--End");
-		var modelRange = {
+		var elRangeX = document.querySelector(".PlotterRange--X");
+		var elRangeY = document.querySelector(".PlotterRange--Y");
+		var that = this;
+		var modelRangeX = {
 			initialize: function () {
 		        this.range = 5;
 		    },
 		    update: function () {
-		    	drawBind(this.range);
+		    	that.drawRangeX = this.range;
+		    	drawBind();
+		    }
+		}
+		var modelRangeY = {
+			initialize: function () {
+		        this.range = 5;
+		    },
+		    update: function () {
+		    	that.drawRangeY = this.range;
+		    	drawBind();
 		    }
 		}	
 
-		console.log(elRange);
-		console.log(elRange);
-		console.log(elRange);
-		console.log(elRange);
-		var tangleRange = new Tangle(elRange, modelRange);
+		var tangleRangeX = new Tangle(elRangeX, modelRangeX);
+		var tangleRangeY = new Tangle(elRangeY, modelRangeY);
 	};
 
 
@@ -63,14 +73,13 @@ var dat = require("dat-gui");
 
 
 	p._draw = function(range) {
-		if(range && !range.preventDefault) {	this.drawRange = range;	}
+		if(range && !range.preventDefault) {	this.drawRangeX = range;	}
 		if(this.inputFunction.value == "") return;
 
 		var str = this.inputFunction.value;
 
 		try{
 			var strFunc = this._formalizeFunction(str);
-			console.log(strFunc);
 			this.fnPlotter = new Function("x", this._formalizeFunction(str));	
 			window.fnPlotter = this.fnPlotter;
 		} catch(e) {
@@ -175,14 +184,12 @@ var dat = require("dat-gui");
 		this.ctxPlot.beginPath();
 
 		var ty = this.canvasPlot.height * .5;
-		var gap = 25;
-		var height = .5/(this.drawRange);
-		console.log('this.drawRange', this.drawRange);
+		var gap = 24;
+		var height = .5/(this.drawRangeY);
 
 		for(var i=0; i<=this.canvasPlot.width; i++) {
 			try {
-				// var y = ty - this.fnPlotter(i/gap)*gap;	
-				var y = ty - this.fnPlotter(i/500*this.drawRange)*(250/this.drawRange);
+				var y = ty - this.fnPlotter(i/this.canvasPlot.width*this.drawRangeX)*(this.canvasPlot.height*.5/this.drawRangeY);
 			} catch(e) {
 				console.warn('Error : ', e);
 				this.warn(e.message);
@@ -205,13 +212,13 @@ var dat = require("dat-gui");
 		this.ctxTangle.beginPath();
 
 		var ty = this.canvasTangle.height * .5;
-		var gap = 25;
-		var height = .5/(this.drawRange);
+		var gap = 24;
+		var height = .5/(this.drawRangeY);
 
 		for(var i=0; i<=this.canvasTangle.width; i++) {
 			try {
 				// var y = ty - this.fnTangleter(i/gap)*gap;	
-				var y = ty - this.fnTangle(i/500*this.drawRange)*(250/this.drawRange);
+				var y = ty - this.fnTangle(i/this.canvasPlot.width*this.drawRangeX)*(this.canvasPlot.height*.5/this.drawRangeY);
 			} catch(e) {
 				console.warn('Error : ', e);
 				this.warn(e.message);
@@ -230,7 +237,7 @@ var dat = require("dat-gui");
 		var canvas = document.querySelector('.PlotterCanvas--Background');
 		var ctx = canvas.getContext("2d");
 
-		var gap = 25;
+		var gap = 24;
 		var numLines = canvas.width/gap;
 		ctx.beginPath();
 		ctx.strokeStyle = "rgba(220, 220, 220, 1.0)";
