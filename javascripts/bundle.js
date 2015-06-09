@@ -29,6 +29,12 @@ var dat = require("dat-gui");
 
 		//	TANGLE
 		var drawBind = this._draw.bind(this);
+
+		this._warning = document.body.querySelector('.Warnings');
+
+		this._tangleBind = this._tangle.bind(this);
+		this._draw();
+
 		var elRange = document.querySelector(".PlotterRange--End");
 		var modelRange = {
 			initialize: function () {
@@ -39,15 +45,16 @@ var dat = require("dat-gui");
 		    }
 		}	
 
-
-		this._warning = document.body.querySelector('.Warnings');
-
-		this._tangleBind = this._tangle.bind(this);
-		this._draw();
+		console.log(elRange);
+		console.log(elRange);
+		console.log(elRange);
+		console.log(elRange);
+		var tangleRange = new Tangle(elRange, modelRange);
 	};
 
 
 	p._onKey = function(e) {
+		return;
 		if(e.keyCode == 13) {
 			e.preventDefault();
 			this._draw();
@@ -57,14 +64,16 @@ var dat = require("dat-gui");
 
 
 	p._draw = function(range) {
-		this.warn('');
-		if(range) {	this.drawRange = range;	}
+		if(range && !range.preventDefault) {	this.drawRange = range;	}
 		if(this.inputFunction.value == "") return;
 
 		var str = this.inputFunction.value;
 
 		try{
+			var strFunc = this._formalizeFunction(str);
+			console.log(strFunc);
 			this.fnPlotter = new Function("x", this._formalizeFunction(str));	
+			window.fnPlotter = this.fnPlotter;
 		} catch(e) {
 			console.warn("Error : ", e);
 			this.warn(e.message);
@@ -169,6 +178,7 @@ var dat = require("dat-gui");
 		var ty = this.canvasPlot.height * .5;
 		var gap = 25;
 		var height = .5/(this.drawRange);
+		console.log('this.drawRange', this.drawRange);
 
 		for(var i=0; i<=this.canvasPlot.width; i++) {
 			try {
@@ -264,7 +274,12 @@ var dat = require("dat-gui");
 
 
 	p._formalizeFunction = function(str) {
-		return "return " + str + ";"
+		if(str.indexOf('output') == -1) {
+			return "return " + str + ";"	
+		} else {
+			return "var output=0;" + str + "return output;";
+		}
+		
 	};
 
 	p.warn = function(str) {

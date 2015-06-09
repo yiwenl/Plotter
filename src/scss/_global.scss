@@ -30,11 +30,15 @@
 
 .PlotterRange {
 	color:black;
-	top:500px;
+	
+	position: relative;
+	z-index: 9;
 }
 
 .PlotterRange--End {
-	left:500px;
+	left:505px;
+	top:197px;
+	/*padding-left:5px;*/
 }
 
 
