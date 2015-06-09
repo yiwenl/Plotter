@@ -1,86 +1,67 @@
 <!doctype html>
 <html>
-  <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="chrome=1">
-    <title>Plotter by Lin Yi-Wen</title>
+	<head>
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="chrome=1">
+		<title>Plotter by Lin Yi-Wen</title>
 
-    <link rel="stylesheet" href="stylesheets/styles.css">
-    <link rel="stylesheet" href="stylesheets/main.css">
-    <link rel="stylesheet" href="stylesheets/github-light.css">
-    <link rel="stylesheet" href="TangleKit/TangleKit.css" type="text/css">
+		<link rel="stylesheet" href="stylesheets/styles.css">
+		<link rel="stylesheet" href="stylesheets/main.css">
+		<link rel="stylesheet" href="stylesheets/github-light.css">
+		<link rel="stylesheet" href="TangleKit/TangleKit.css" type="text/css">
 
-    <script type="text/javascript" src="TangleKit/Tangle.js"></script>
-    <script type="text/javascript" src="TangleKit/mootools.js"></script>
-    <script type="text/javascript" src="TangleKit/sprintf.js"></script>
-    <script type="text/javascript" src="TangleKit/BVTouchable.js"></script>
-    <script type="text/javascript" src="TangleKit/TangleKit.js"></script>
+		<script type="text/javascript" src="TangleKit/Tangle.js"></script>
+		<script type="text/javascript" src="TangleKit/mootools.js"></script>
+		<script type="text/javascript" src="TangleKit/sprintf.js"></script>
+		<script type="text/javascript" src="TangleKit/BVTouchable.js"></script>
+		<script type="text/javascript" src="TangleKit/TangleKit.js"></script>
 
-    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
-    <!--[if lt IE 9]>
-    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
-    <![endif]-->
-    <script src="javascripts/bundle.js"></script>
-  </head>
-  <body>
-    <div class="wrapper">
-      <header>
-        <h1>Plotter</h1>
-        <p></p>
-
-        <p class="view"><a href="https://github.com/yiwenl/Plotter">View the Project on GitHub <small>yiwenl/Plotter</small></a></p>
-
-
-        <ul>
-          <li><a href="https://github.com/yiwenl/Plotter/zipball/master">Download <strong>ZIP File</strong></a></li>
-          <li><a href="https://github.com/yiwenl/Plotter/tarball/master">Download <strong>TAR Ball</strong></a></li>
-          <li><a href="https://github.com/yiwenl/Plotter" target="_blank">View On <strong>GitHub</strong></a></li>
-        </ul>
-      </header>
-      <section>
-        <h3>
-<a id="welcome-to-github-pages" class="anchor" href="#welcome-to-github-pages" aria-hidden="true"><span class="octicon octicon-link"></span></a>Plotter</h3>
-
-<p>A simple tool to visulise your equation, using library <a href="http://worrydream.com/Tangle/" target="_blank">Tangle</a> by <a href="http://worrydream.com/" target="_blank">@worrydream</a>.</p>
-
-
-<div class="PlotterContainer">
-  <div class="PlotterContainer-canvasContainer">
-    <canvas class="PlotterCanvas PlotterCanvas--Plotter" width="480", height="480"></canvas>
-    <canvas class="PlotterCanvas PlotterCanvas--Tangle" width="480", height="480"></canvas>
-    <canvas class="PlotterCanvas PlotterCanvas--Background" width="480", height="480"></canvas>
-  </div>
-  <div class="PlotterContainer-rangeContainer">
-    <p class="PlotterRange PlotterRange--X"><span class="TKAdjustableNumber" data-var="range" data-min="1" data-max="50" data-step=".02" data-format="%.2f">0</span><p>
-    <p class="PlotterRange PlotterRange--Y"><span class="TKAdjustableNumber" data-var="range" data-min="1" data-max="50" data-step=".02" data-format="%.2f">0</span><p>
-  </div>
-  
-  
-</div>
-
-<div class="Inputs">
-  <!-- <p class="Inputs-InputsTitle">Input</p> -->
-  <textarea class="Inputs-InputFunction" value="Math.sin(x)">Math.sin(x*1.05) - .5</textarea>
-  <button class="Inputs-ButtonDraw">DRAW</button>
-  <p class="Inputs-Tangle"></p>
-</div>
-
-
-<P class="Warnings"></P>
-
-
-
-<pre style="clear:both"><code>$ cd yiwenl/Plotter
-$ git fetch origin
-$ git checkout
-</code></pre>
-      </section>
-      <footer>
-        <p>This project is maintained by <a href="https://github.com/yiwenl">yiwenl</a></p>
-        <p><small>Hosted on GitHub Pages &mdash; Theme by <a href="https://github.com/orderedlist">orderedlist</a></small></p>
-      </footer>
-    </div>
-    <script src="javascripts/scale.fix.js"></script>
-    
-  </body>
+		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+		<!--[if lt IE 9]>
+		<script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+		<![endif]-->
+		<script src="javascripts/bundle.js"></script>
+	</head>
+	<body>
+		<div class="wrapper">
+			<header>
+				<h1>Plotter</h1>
+				<p class="view"><a href="https://github.com/yiwenl/Plotter">View the Project on GitHub <small>yiwenl/Plotter</small></a></p>
+				<ul>
+					<li><a href="https://github.com/yiwenl/Plotter/zipball/master">Download <strong>ZIP File</strong></a></li>
+					<li><a href="https://github.com/yiwenl/Plotter/tarball/master">Download <strong>TAR Ball</strong></a></li>
+					<li><a href="https://github.com/yiwenl/Plotter" target="_blank">View On <strong>GitHub</strong></a></li>
+				</ul>
+			</header>
+			<section>
+				<h3>
+				<a id="welcome-to-github-pages" class="anchor" href="#welcome-to-github-pages" aria-hidden="true"><span class="octicon octicon-link"></span></a>Plotter</h3>
+				<p>A simple tool to visulise your equation, using library <a href="http://worrydream.com/Tangle/" target="_blank">Tangle</a> by <a href="http://worrydream.com/" target="_blank">@worrydream</a>.</p>
+				<div class="PlotterContainer">
+					<div class="PlotterContainer-canvasContainer">
+						<canvas class="PlotterCanvas PlotterCanvas--Plotter" width="480", height="480"></canvas>
+						<canvas class="PlotterCanvas PlotterCanvas--Tangle" width="480", height="480"></canvas>
+						<canvas class="PlotterCanvas PlotterCanvas--Background" width="480", height="480"></canvas>
+					</div>
+					<div class="PlotterContainer-rangeContainer">
+						<p class="PlotterRange PlotterRange--X"><span class="TKAdjustableNumber" data-var="range" data-min="1" data-max="50" data-step=".02" data-format="%.2f">0</span><p>
+						<p class="PlotterRange PlotterRange--Y"><span class="TKAdjustableNumber" data-var="range" data-min="1" data-max="50" data-step=".02" data-format="%.2f">0</span><p>
+					</div>
+				</div>
+				<div class="Inputs">
+					<!-- <p class="Inputs-InputsTitle">Input</p> -->
+					<textarea class="Inputs-InputFunction" value="Math.sin(x)">Math.sin(x*1.05) - .5</textarea>
+					<button class="Inputs-ButtonDraw">DRAW</button>
+					<p class="Inputs-Tangle"></p>
+				</div>
+				<P class="Warnings"></P>
+			</section>
+			<footer>
+				<p>This project is maintained by <a href="https://github.com/yiwenl">yiwenl</a></p>
+				<p><small>Hosted on GitHub Pages &mdash; Theme by <a href="https://github.com/orderedlist">orderedlist</a></small></p>
+			</footer>
+		</div>
+		<script src="javascripts/scale.fix.js"></script>
+		
+	</body>
 </html>
