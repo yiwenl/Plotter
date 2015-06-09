@@ -14,16 +14,17 @@ var dat = require("dat-gui");
 	var p = App.prototype;
 
 	p._init = function() {
-		this.drawRangeX = 5;
-		this.drawRangeY = 5;
+		this.drawRangeX    = 5;
+		this.drawRangeY    = 5;
 		this._drawBackground();
-		this.canvasPlot = document.querySelector('.PlotterCanvas--Plotter');
-		this.ctxPlot = this.canvasPlot.getContext("2d");
-		this.canvasTangle = document.querySelector('.PlotterCanvas--Tangle');
-		this.ctxTangle = this.canvasTangle.getContext("2d");
 
+		this.canvasPlot    = document.querySelector('.PlotterCanvas--Plotter');
+		this.ctxPlot       = this.canvasPlot.getContext("2d");
+		this.canvasTangle  = document.querySelector('.PlotterCanvas--Tangle');
+		this.ctxTangle     = this.canvasTangle.getContext("2d");
+		
 		this.inputFunction = document.querySelector('.Inputs-InputFunction');
-		this.btnDraw = document.querySelector('.Inputs-ButtonDraw');
+		this.btnDraw       = document.querySelector('.Inputs-ButtonDraw');
 		this.btnDraw.addEventListener("click", this._draw.bind(this));
 
 		window.addEventListener("keydown", this._onKey.bind(this));
@@ -41,21 +42,21 @@ var dat = require("dat-gui");
 		var that = this;
 		var modelRangeX = {
 			initialize: function () {
-		        this.range = 5;
-		    },
-		    update: function () {
-		    	that.drawRangeX = this.range;
-		    	drawBind();
-		    }
+				this.range = 5;
+			},
+			update: function () {
+				that.drawRangeX = this.range;
+				drawBind();
+			}
 		}
 		var modelRangeY = {
 			initialize: function () {
-		        this.range = 5;
-		    },
-		    update: function () {
-		    	that.drawRangeY = this.range;
-		    	drawBind();
-		    }
+				this.range = 5;
+			},
+			update: function () {
+				that.drawRangeY = this.range;
+				drawBind();
+			}
 		}	
 
 		var tangleRangeX = new Tangle(elRangeX, modelRangeX);
@@ -79,10 +80,9 @@ var dat = require("dat-gui");
 
 		var str = this.inputFunction.value;
 
-		try{
+		try {
 			var strFunc = this._formalizeFunction(str);
 			this.fnPlotter = new Function("x", this._formalizeFunction(str));	
-			window.fnPlotter = this.fnPlotter;
 		} catch(e) {
 			console.warn("Error : ", e);
 			this.warn(e.message);
@@ -90,8 +90,6 @@ var dat = require("dat-gui");
 		}
 
 		this.plot();
-
-		
 		this._formTangle(str);
 	};
 
@@ -115,7 +113,10 @@ var dat = require("dat-gui");
 			var step = this.getStep(precision);
 			var valueRange = this.getValueRange(value);
 
-			strP += strBefore;
+			var strBeforeP = strBefore.replace(">", "&gt");
+			strBeforeP = strBefore.replace("<", "&lt");
+
+			strP += strBeforeP;
 			this._tangleStrings.push(strBefore);
 			strP += '<span class="TKAdjustableNumber" data-var="data'+i+'" data-min="'+valueRange.min+'" data-max="'+valueRange.max+'" data-step="'+step+'" data-format="%.1f"></span>';
 			i++;
@@ -125,11 +126,18 @@ var dat = require("dat-gui");
 			p.innerHTML = "";
 			return;
 		}
-		var strLeft = str.substring(preIndex);
-		strP += strLeft;
-		this._tangleStrings.push(strLeft);
 
+		var strLeft = str.substring(preIndex);
+		this._tangleStrings.push(strLeft);
+		strLeft = strLeft.replace(">", "&gt");
+		strLeft = strLeft.replace("<", "&lt");
+		strP += strLeft;
+		
+
+		strP = strP.replace(/\n/g, '<br/>');
+		
 		p.innerHTML = strP;
+
 		var that = this;
 
 		var modelRange = {
@@ -139,18 +147,15 @@ var dat = require("dat-gui");
 					this["data" + i] = values[i];
 					this.numData ++;
 				}
-		        // this.data0 = 1;
-		    },
-		    update: function () {
-		    	var ary = [];
-		    	for(var i=0; i<this.numData; i++) {
-		    		ary.push(this["data"+i]);
-		    	}
-		    	that._tangleBind(ary);
-		    }
+			},
+			update: function () {
+				var ary = [];
+				for(var i=0; i<this.numData; i++) {
+					ary.push(this["data"+i]);
+				}
+				that._tangleBind(ary);
+			}
 		}
-
-		console.log(modelRange);
 
 		var tangleRange = new Tangle(p, modelRange);
 	};
